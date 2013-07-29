@@ -13,11 +13,19 @@
 define('app/todo', [
 	'jquery',
 	'backbone',
-	'underscore'
+	'underscore',
+	'router/app',
+	'view/app'
 	],
 
-function($, Backbone, _) {
+function($, Backbone, _, AppRouter, AppView ) {
+
+	var app = app || {};
+
+	app.Router = new AppRouter();
+	
+	app.AppView = new AppView();
 
 	return;
-	
+
 });

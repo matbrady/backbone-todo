@@ -36,10 +36,11 @@
       "jquery": "lib/jquery",
       "underscore": "lib/underscore",
       "backbone": "lib/backbone",
-      "localstorage": "lib/backbone.localStorage"
-      // "raphael": "lib/raphael",
-      // "require": "lib/require",
-      // "usMap": "lib/usMap"
+      "localstorage": "lib/backbone.localStorage",
+      "model": "app/models",
+      "collection": "app/collections",
+      "view": "app/views",
+      "router": "app/routers"
     }
 
   };

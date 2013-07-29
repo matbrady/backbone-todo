@@ -40,19 +40,39 @@
             </div>
         </div>
 
+        <!-- Templates -->
 
-        <!-- DEMO 1 -->
-        <!--
-        <div id="todo"></div>
-
+        <!-- Item -->
         <script type="text/template" id="item-template">
-            <div id="todo_complete">
-                <input type="checkbox" <%= completed ? 'checked="checked"' : '' %> />
-                <%= title %>
-            </div>
+        <div class="view">
+            <input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %> >
+            <label><%- title%></label>
+            <button class="destroy">delete</button>
+        </div>
+        <input class="edit" value="<%- title%>">
         </script>
-        -->
-        <!-- END DEMO 1 -->
+
+        <!-- Stats -->
+        <script type="text/template" id="stat-template">
+        <span id="todo-count"><strong>
+            <%= remaining%><%= remaining === 1 ? 'item' : 'items' %> left
+        </strong></span>
+        <ul id="filters">
+            <li>
+                <a class="selected" href="#/">All</a>
+            </li>
+            <li>
+                <a href="#/active">Active</a>
+            </li>
+            <li>
+                <a href="#/completed">Completed</a>
+            </li>
+            <% if (completed) { %>
+            <button id="clear-completed">Clear Completed (<%= completed %>)</button>
+            <% } %>
+        </ul>
+        </script>
+
 
         <script data-main="js/main.js" src="js/lib/require.js"></script>
     </body>
