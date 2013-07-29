@@ -33,9 +33,10 @@
 
     paths: {
       "poly": "polyfills",
+      "jquery": "lib/jquery",
       "underscore": "lib/underscore",
       "backbone": "lib/backbone",
-      "jquery": "lib/jquery",
+      "localstorage": "lib/backbone.localStorage"
       // "raphael": "lib/raphael",
       // "require": "lib/require",
       // "usMap": "lib/usMap"
@@ -77,7 +78,11 @@
         var mods = [];
 
         if ( detection.has('#todo') ) {
-            mods.push('demo/todos');
+          // mods.push('demo/todos');
+        }
+
+        if ( detection.has('#todoapp')) {
+          mods.push('app/todo');
         }
 
         require(mods);
