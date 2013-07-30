@@ -1,9 +1,10 @@
 // Todo Router
 
 define('router/app', [
-	'backbone'
+	'backbone',
+	'app/shared'
 	], 
-function(Backbone) {
+function(Backbone, app) {
 
 	var Workspace = Backbone.Router.extend({
 
@@ -21,7 +22,7 @@ function(Backbone) {
 
 			// Trigger a colletion filter event, causing hiding/unhiding
 			// of Todo View items
-			app.TodoList.trigger('filter')
+			app.TodoList.trigger('filter');
 		}
 	});
 

@@ -5214,3 +5214,16 @@ h4 {
 
 #info {
   float: right; }
+
+.hidden {
+  display: none; }
+
+#todo-list input.edit {
+  display: none; }
+#todo-list .editing .view {
+  display: none; }
+#todo-list .editing .edit {
+  display: block; }
+
+.completed {
+  background-color: green; }

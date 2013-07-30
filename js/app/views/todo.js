@@ -3,9 +3,10 @@
 define('view/todo', [
 	'jquery',
 	'backbone',
-	'underscore'
+	'underscore',
+	'app/shared'
 	],
-function($, Backbone, _) {
+function($, Backbone, _, app) {
 
 	var TodoView = Backbone.View.extend({
 
@@ -32,6 +33,8 @@ function($, Backbone, _) {
 		// app, we set a direct reference on the model for convience.
 		initialize: function() {
 			this.listenTo( this.model, 'change', this.render );
+			this.listenTo( this.model, 'destroy', this.remove);
+			this.listenTo( this.model, 'visible', this.toggleVisible );
 		},
 
 
@@ -86,7 +89,7 @@ function($, Backbone, _) {
 
 		// If you hit `enter`, we're through editing the item.
 		updateOnEnter: function( evt ) {
-			if ( evt.which === ENTER_KEY ) {
+			if ( evt.which === app.ENTER_KEY ) {
 				this.close();
 			}
 		},

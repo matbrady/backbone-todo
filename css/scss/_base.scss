@@ -7,3 +7,28 @@
 #info {
 	float: right;
 }
+
+.hidden {
+	display: none;
+}
+
+// TodoList 
+
+#todo-list {
+	input.edit {
+		display: none;
+	}
+
+	.editing {
+		.view {
+			display: none;
+		}
+		.edit {
+			display: block;
+		}
+	}
+}
+
+.completed {
+	background-color: green;
+}

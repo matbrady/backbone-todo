@@ -4,14 +4,12 @@ define('view/app', [
 	'jquery',
 	'underscore',
 	'backbone',
+	'app/shared',
 	'collection/todos',
 	'view/todo'
 	],
-function($, _, Backbone, TodoList, TodoView) {
+function($, _, Backbone, app, TodoList, TodoView) {
 	// Our Overall **AppView** si the top-level piece of UI.
-
-	var ENTER_KEY = 13;
-
 
 	var AppView = Backbone.View.extend({
 
@@ -34,32 +32,30 @@ function($, _, Backbone, TodoList, TodoView) {
 		// At initialization we bind to the relevent events on the 'Todos'
 		// collection, when items are added or changed. Load any preexisting
 		// todos that might be saved in *localStorage*.
-		initialize: function( ) {
-			this.TodoList = new TodoList();
-
+		initialize: function() {
 			this.allCheckbox = this.$('#toggle-all')[0];
 			this.$input = this.$('#new-todo');
 			this.$footer = this.$('.footer');
 			this.$main = this.$('#main');
 
-			this.listenTo( this.TodoList, 'add', this.addOne);
-			this.listenTo( this.TodoList, 'reset', this.addAll);
+			this.listenTo( app.TodoList, 'add', this.addOne);
+			this.listenTo( app.TodoList, 'reset', this.addAll);
 
-			this.listenTo( this.TodoList, 'change:completed', this.filterOne);
-			this.listenTo( this.TodoList, 'filter', this.filterAll);
-			this.listenTo( this.TodoList, 'all', this.render);
+			this.listenTo( app.TodoList, 'change:completed', this.filterOne);
+			this.listenTo( app.TodoList, 'filter', this.filterAll);
+			this.listenTo( app.TodoList, 'all', this.render);
 
-			this.TodoList.fetch();
+			app.TodoList.fetch();
 		},
 
 
-		// Re-rendering the App just means refreshing the statistics -- the reset 
+		// Re-rendering the App just means refreshing the statistics -- the rest 
 		// of the app doesn't change.
 		render: function() {
-			var completed = this.TodoList.completed().length;
-			var remaining = this.TodoList.remaining().length;
+			var completed = app.TodoList.completed().length;
+			var remaining = app.TodoList.remaining().length;
 
-			if ( this.TodoList.length ) {
+			if ( app.TodoList.length ) {
 				this.$main.show();
 				this.$footer.show();
 
@@ -70,7 +66,7 @@ function($, _, Backbone, TodoList, TodoView) {
 
 				this.$('#filters li a')
 					.removeClass('selected')
-					.filter('[href="#/' + ( TodoFilter || '' ) + '"]')
+					.filter('[href="#/' + ( app.TodoFilter || '' ) + '"]')
 					.addClass('selected');
 			} else {
 				this.$main.hide();
@@ -92,19 +88,25 @@ function($, _, Backbone, TodoList, TodoView) {
 		// Add all items in the **Todo** collection at once.
 		addAll: function() {
 			this.$('#todo-list').html('');
-			this.TodoList.each( this.addOne, this);
+			app.TodoList.each( this.addOne, this);
 		},
 
 
-		filterAll : function() {
-			this.TodoList.each( this.filterOne, this);
+		filterOne: function( todo ) {
+			todo.trigger('visible');
 		},
+
+
+		filterAll: function() {
+			app.TodoList.each( this.filterOne, this);
+		},
+
 
 		// Generate the attributes for a new Todo Item
 		newAttributes: function() {
 			return {
 				title: this.$input.val().trim(),
-				order: this.TodoList.nextOrder(),
+				order: app.TodoList.nextOrder(),
 				completed: false
 			};
 		},
@@ -113,18 +115,18 @@ function($, _, Backbone, TodoList, TodoView) {
 		// If you hit return in the main input field, create new Todo model,
 		// presisting it to localStorage.
 		createOnEnter: function( evt ) {
-			if ( evt.which !== ENTER_KEY || !this.$input.val().trim() ) {
+			if ( evt.which !== app.ENTER_KEY || !this.$input.val().trim() ) {
 				return;
 			}
 
-			this.TodoList.create( this.newAttributes() );
+			app.TodoList.create( this.newAttributes() );
 			this.$input.val('');
 
 		},
 
 		// Clear all completed todo items, destroying their models.
 		clearCompleted: function() {
-			_.invoke( this.TodoList.completed(), 'destroy');
+			_.invoke( app.TodoList.completed(), 'destroy');
 
 			return false;
 		},
@@ -133,7 +135,7 @@ function($, _, Backbone, TodoList, TodoView) {
 		toggleAllCompleted: function() {
 			var completed = this.allCheckbox.checked;
 
-			this.TodoList.each( function( todo ) {
+			app.TodoList.each( function( todo ) {
 				todo.save({
 					'completed': completed
 				});
