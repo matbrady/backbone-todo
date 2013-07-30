@@ -22,11 +22,14 @@ define('app/todo', [
 function($, Backbone, _, app, AppRouter, AppView ) {
 
 
+	// Create the Application Router but don't do anything with it yet.
 	app.Router = new AppRouter();
 	
 	app.AppView = new AppView();
 
+	// History is started after the AppView has been generated.
 	Backbone.history.start();
+
 	return app;
 
 });

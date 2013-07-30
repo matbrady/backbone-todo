@@ -121,7 +121,6 @@ function($, _, Backbone, app, TodoList, TodoView) {
 
 			app.TodoList.create( this.newAttributes() );
 			this.$input.val('');
-
 		},
 
 		// Clear all completed todo items, destroying their models.
